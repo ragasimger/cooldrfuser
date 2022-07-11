@@ -13,12 +13,30 @@ def check_user(request, obj):
     # print(request.user)
     return obj.username==request.user.username or request.user.is_staff
 
-class UserPerm(BasePermission):
+class CustomNotAllowed(BasePermission):
 
     def has_permission(self, request, view):
-        # if request.user.is_staff or request.user.username:
-            # return request.user.is_active and request.method in SAFE_METHODS
-        return request.user.is_staff or request.method in SAFE_METHODS
+        return False
 
     def has_object_permission(self, request, view, obj):
-        return check_user(request, obj) or request.method in SAFE_METHODS
+        return False
+
+class UserPerformActionPermission:
+
+    def get_user_id(self, request, *args, **kwargs):
+
+        serializer = self.serializer_class(self.get_object())
+        return serializer.data['id']
+
+    def check_staff_status(self, request, *args, **kwargs):
+
+        return self.request.user.is_staff
+
+    def wrap_perms(self, request, *args):
+
+        id_ = self.get_user_id(self, request)
+        staff = self.check_staff_status(self, request)
+        if self.request.user.id == id_ or staff:
+            return True
+        else:
+            self.permission_classes=[CustomNotAllowed,]

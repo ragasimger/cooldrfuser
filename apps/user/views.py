@@ -4,7 +4,7 @@
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, VerifyOtp, UserUpdateSerializer
 )
-from apps.user.permissions import IsStaff, UserPerm
+from apps.user.permissions import IsStaff, CustomNotAllowed, UserPerformActionPermission
 from apps.user.sendemails import send_otp
 
 
@@ -12,7 +12,7 @@ from apps.user.sendemails import send_otp
     From Packages
 '''
 from rest_framework import (
-    filters, viewsets, generics, views
+    filters, viewsets, generics
 )
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
@@ -31,9 +31,11 @@ class UserRegistration(generics.CreateAPIView, CreateModelMixin):
         send_otp(email)
 
 
-class PerformUserAction(generics.RetrieveUpdateDestroyAPIView):
+
+
+
+class PerformUserAction(generics.RetrieveUpdateDestroyAPIView, UserPerformActionPermission):
     serializer_class = UserUpdateSerializer
-    # permission_classes = [UserPerm,]
     queryset = get_user_model().objects.all()
     lookup_field = 'pk'
     auth_perms_error = Response(
@@ -43,31 +45,12 @@ class PerformUserAction(generics.RetrieveUpdateDestroyAPIView):
         }
         )
 
-    def get_user_id(self, request, *args, **kwargs):
-
-        serializer = self.serializer_class(self.get_object())
-        return serializer.data['id']
-
-    def check_staff_status(self, request, *args, **kwargs):
-
-        return self.request.user.is_staff
-
-
-    def wrap_perms(self, request, *args):
-
-        id_ = self.get_user_id(self, request)
-        staff = self.check_staff_status(self, request)
-        if self.request.user.id == id_ or staff:
-
-            return True
-
     def get(self, request, *args, **kwargs):
 
         if self.wrap_perms(self, request, *args):
 
-            return self.retrieve(request, *args, **kwargs)
+                return self.retrieve(request, *args, **kwargs)
         
-        self.permission_classes=[UserPerm,]
         return self.auth_perms_error
 
     def put(self, request, *args, **kwargs):
