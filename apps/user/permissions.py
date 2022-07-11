@@ -10,7 +10,6 @@ class IsStaff(BasePermission):
 
 
 def check_user(request, obj):
-    # print(request.user)
     return obj.username==request.user.username or request.user.is_staff
 
 class CustomNotAllowed(BasePermission):
@@ -20,6 +19,8 @@ class CustomNotAllowed(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return False
+
+        
 
 class UserPerformActionPermission:
 
