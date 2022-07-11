@@ -2,6 +2,7 @@ from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 from django.db import models
 from apps.authentication.models import User
+from apps.authentication.staticstuffs import default_image
 
 
 @receiver(post_delete, sender=User)
@@ -37,13 +38,12 @@ def delete_on_change(sender, instance, **kwargs):
                 '''
                     Set the default image when the user deletes their profile image.
                 '''
-                setattr(instance, field.name, 'profile/photos/default.png')
+                setattr(instance, field.name, default_image)
 
 
 def delete_image_if_unused(model,instance,field,instance_file_field):
     field_dict = {field.name: instance_file_field.name}
     instance_exist = model.objects.filter(**field_dict).exclude(pk=instance.pk).exists()
-    default_image = 'profile/photos/default.png'
     '''
         Prevents signal to delete the default image file. Delete others if unused by any instance.
     '''
