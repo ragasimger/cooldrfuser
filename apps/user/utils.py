@@ -131,7 +131,7 @@ class OTPResent(generics.GenericAPIView):
             return Response(
                 {
                     'status' : 200,
-                    'detail' : "OTP sent successfully"
+                    'detail' : "OTP resent successfully"
                 }
             )
 
@@ -155,7 +155,7 @@ class OTPResent(generics.GenericAPIView):
             return Response(
                 {
                     'status' : 200,
-                    'detail' : "OTP sent successfully"
+                    'detail' : "OTP resent successfully"
                 }
             )
         except Exception:
