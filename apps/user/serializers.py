@@ -85,5 +85,5 @@ class ResendOtp(serializers.ModelSerializer):
             'otp',
         ]
 
-class VerifyOtp(ResendOtp):
+class VerifyOtpSerializer(ResendOtp):
     pass

@@ -2,9 +2,9 @@
     From Local 
 '''
 from apps.user.serializers import(
-    UserRegisterSerializer, AdminLevelUserSerializer, VerifyOtp, UserUpdateSerializer
+    UserRegisterSerializer, AdminLevelUserSerializer, VerifyOtpSerializer, UserUpdateSerializer
 )
-from apps.user.permissions import IsStaff, CustomNotAllowed, UserPerformActionPermission
+from apps.user.permissions import IsStaff, UserPerformActionPermission
 from apps.user.sendemails import send_otp
 from apps.user.utils import CompleteCRUDUser, OTPVerification
 
@@ -50,7 +50,7 @@ class ResendOtp(generics.GenericAPIView):
         send_otp(email)
 
 class VerifyOtp(OTPVerification):
-    serializer_class = VerifyOtp
+    serializer_class = VerifyOtpSerializer
 
 
 
