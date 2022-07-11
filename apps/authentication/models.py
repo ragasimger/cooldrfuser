@@ -1,6 +1,6 @@
 from django.db import models
 from apps.authentication.managers import CustomUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 class User(AbstractBaseUser, PermissionsMixin):
 
@@ -11,7 +11,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=10, null=True, blank=True, unique=True)
-    image = models.ImageField(upload_to="profile/photos", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="profile/photos", null=True, blank=True, default='profile/photos/default.png'
+    )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     otp = models.CharField(max_length=15, null=True,blank=True)
