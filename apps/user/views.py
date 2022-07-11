@@ -2,11 +2,11 @@
     From Local 
 '''
 from apps.user.serializers import(
-    UserRegisterSerializer, AdminLevelUserSerializer, VerifyOtpSerializer, UserUpdateSerializer
+    UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtp
 )
 from apps.user.permissions import IsStaff, UserPerformActionPermission
 from apps.user.sendemails import send_otp
-from apps.user.utils import CompleteCRUDUser, OTPVerification
+from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 
 
 '''
@@ -42,16 +42,12 @@ class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
         )
 
 
-class ResendOtp(generics.GenericAPIView):
-    serializer_class = UserRegisterSerializer
+class ResendOtp(OTPResent):
+    serializer_class = ResendOtp
     
-    def post(self, request, serializer, *args, **kwargs):
-        email = serializer.validated_data['email']
-        send_otp(email)
 
 class VerifyOtp(OTPVerification):
     serializer_class = VerifyOtpSerializer
-
 
 
 class AdminLevelUserViewSet(viewsets.ModelViewSet):

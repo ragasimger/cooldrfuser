@@ -1,3 +1,12 @@
+'''
+    From Local
+'''
+from apps.user.sendemails import send_otp
+
+
+'''
+    From Packages
+'''
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework import generics
@@ -105,5 +114,54 @@ class OTPVerification(generics.GenericAPIView):
                 {
                     'status': 404,
                     "detail": "Action wasn't performed correctly."
+                }
+            )
+
+
+class OTPResent(generics.GenericAPIView):
+
+    def get(self, request, *args, **kwargs):
+
+        try:
+            username = self.request.user.username
+            user = get_user_model().objects.filter(username=username)
+            user = user.first()
+            email = user.email
+            send_otp(email)
+            return Response(
+                {
+                    'status' : 200,
+                    'detail' : "OTP sent successfully"
+                }
+            )
+
+        except Exception:
+            return Response(
+                {
+                    'status': 404,
+                    'detail': "You are not authorized to perform this action."
+                }
+            )
+
+
+
+    def post(self, request, *args, **kwargs):
+        
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            email = serializer.validated_data['email']
+            send_otp(email)
+            return Response(
+                {
+                    'status' : 200,
+                    'detail' : "OTP sent successfully"
+                }
+            )
+        except Exception:
+            return Response(
+                {
+                    'status': 404,
+                    'detail': 'Something went wrong'
                 }
             )
