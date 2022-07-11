@@ -75,7 +75,7 @@ class AdminLevelUserSerializer(UserRegisterSerializer):
         ]
 
 
-class ResendOtp(serializers.ModelSerializer):
+class VerifyOtpSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     otp = serializers.CharField(write_only=True)
     class Meta:
@@ -85,5 +85,21 @@ class ResendOtp(serializers.ModelSerializer):
             'otp',
         ]
 
-class VerifyOtpSerializer(ResendOtp):
-    pass
+class ResendOtp(UpdateSerialize):
+    password = serializers.CharField(
+        style = {'input_type': 'password'},
+        write_only=True,
+        min_length=8
+    )
+    email = serializers.EmailField(
+        style = {'important': True, 'input_type': 'email'},
+    )
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'id',
+            'email',
+            'password',
+        ]
+    def create(self):
+        return

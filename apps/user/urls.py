@@ -18,7 +18,6 @@ from apps.user.views import(
 )
 
 
-
 urlpatterns = [
     path("create-user/", UserRegistration.as_view(), name="create_user"),
     path("resend/otp/", ResendOtp.as_view(), name="resend_otp"),
