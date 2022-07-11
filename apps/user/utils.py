@@ -65,15 +65,16 @@ class CompleteCRUDUser(generics.RetrieveUpdateDestroyAPIView):
 
 class OTPVerification(generics.GenericAPIView):
 
-    
+
     def post(self, request, *args, **kwargs):
 
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            email = serializer.data['email']
-            otp = serializer.data['otp']
-            user = get_user_model().objects.get(email=email)
+            email = serializer.validated_data['email']
+            otp = serializer.validated_data['otp']
+            user = get_user_model().objects.filter(email=email)
+
             if not user.exists():
                 return Response(
                     {
@@ -81,7 +82,9 @@ class OTPVerification(generics.GenericAPIView):
                         'detail': "Invalid email"
                     }
                 )
-            if user.otp!=otp:
+
+            user = user.first()
+            if user.otp != otp:
                 return Response(
                     {
                         'status': 404,
@@ -90,6 +93,12 @@ class OTPVerification(generics.GenericAPIView):
             )
             user.is_active = True
             user.save()
+            return Response(
+                {
+                    'status': 200,
+                    "detail": "Your Account has been verified."
+                }
+            )
 
         except Exception:
             return Response(
