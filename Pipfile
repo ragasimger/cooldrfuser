@@ -12,6 +12,7 @@ pillow = "*"
 django-filter = "*"
 drf-spectacular = "*"
 django-cors-headers = "*"
+django-redis = "*"
 
 [dev-packages]
 

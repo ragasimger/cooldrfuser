@@ -122,11 +122,23 @@ class OTPResent(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
 
+        '''
+            Check whether user is authenticated 
+        '''
+
         try:
             username = self.request.user.username
             user = get_user_model().objects.filter(username=username)
             user = user.first()
             email = user.email
+            if user.is_active:
+                return Response(
+                    {
+                        'status' : 404,
+                        "message" : "You are already a verified user."
+                    }
+                )
+
             send_otp(email)
             return Response(
                 {
@@ -134,7 +146,6 @@ class OTPResent(generics.GenericAPIView):
                     'detail' : "OTP resent successfully"
                 }
             )
-
         except Exception:
             return Response(
                 {
@@ -151,6 +162,16 @@ class OTPResent(generics.GenericAPIView):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             email = serializer.validated_data['email']
+            user = get_user_model().objects.filter(email=email)
+            user = user.first()
+
+            if user.is_active:
+                return Response(
+                    {
+                        "status": 404,
+                        "detail" : "You are already a verified user."
+                    }
+                )
             send_otp(email)
             return Response(
                 {
