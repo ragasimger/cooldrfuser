@@ -19,6 +19,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import IsAuthenticated
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
@@ -33,6 +34,7 @@ class UserRegistration(generics.CreateAPIView, CreateModelMixin):
 class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
     serializer_class = UserUpdateSerializer
     queryset = get_user_model().objects.all()
+    permission_classes=[IsAuthenticated,]
     lookup_field = 'pk'
     auth_perms_error = Response(
         {

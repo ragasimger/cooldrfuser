@@ -40,7 +40,7 @@ class CompleteCRUDUser(generics.RetrieveUpdateDestroyAPIView):
 
         if self.wrap_perms(self, request, *args):
 
-                return self.retrieve(request, *args, **kwargs)
+            return self.retrieve(request, *args, **kwargs)
         
         return self.auth_perms_error
 

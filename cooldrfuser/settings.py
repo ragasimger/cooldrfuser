@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
     'corsheaders',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
 
     # Local apps
     'apps.authentication',
@@ -185,10 +187,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') # 2FA enabled App password r
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": config("REDIS_URL"),
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": config("REDIS_URL"),
+#         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+#     }
+# }

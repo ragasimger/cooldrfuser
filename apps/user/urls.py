@@ -2,7 +2,7 @@
     From Packages 
 '''
 from django.conf import settings
-from django.urls import path, include
+from django.urls import path
 
 from rest_framework.routers import(
     DefaultRouter, SimpleRouter

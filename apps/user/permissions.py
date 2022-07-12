@@ -39,5 +39,4 @@ class UserPerformActionPermission:
         staff = self.check_staff_status(self, request)
         if self.request.user.id == id_ or staff:
             return True
-        else:
-            self.permission_classes=[CustomNotAllowed,]
+        return False

@@ -5,6 +5,8 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+from dj_rest_auth import urls
+
 schemapatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("", SpectacularSwaggerView.as_view(
@@ -24,11 +26,11 @@ useractionpatterns = [
 ]
 
 
-
 all_patterns = [
     path("user-action/", include(useractionpatterns)),
     path("user-auth/", include(authpatterns)),
     path("register-user/", include(registerpatterns)),
     path("admin-level-user/", include("apps.user.adminlevelurls")),
+    path("auth-api/", include("apps.user.djurls")),
     path("docs/", include(schemapatterns)),
 ]
