@@ -146,6 +146,7 @@ class OTPResent(generics.GenericAPIView):
                     'detail' : "OTP resent successfully"
                 }
             )
+                
         except Exception:
             return Response(
                 {
@@ -157,14 +158,13 @@ class OTPResent(generics.GenericAPIView):
 
 
     def post(self, request, *args, **kwargs):
-        
+
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             email = serializer.validated_data['email']
             user = get_user_model().objects.filter(email=email)
             user = user.first()
-
             if user.is_active:
                 return Response(
                     {
@@ -180,9 +180,15 @@ class OTPResent(generics.GenericAPIView):
                 }
             )
         except Exception:
-            return Response(
-                {
-                    'status': 404,
-                    'detail': 'Something went wrong'
-                }
-            )
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            email = serializer.validated_data['email']
+            user = get_user_model().objects.filter(email=email)
+            user = user.first()
+            if not user:
+                return Response(
+                    {
+                        'status': 404,
+                        'detail': "User with the email doesn't exist."
+                    }
+                )

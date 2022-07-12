@@ -85,21 +85,19 @@ class VerifyOtpSerializer(serializers.ModelSerializer):
             'otp',
         ]
 
-class ResendOtp(UpdateSerialize):
-    password = serializers.CharField(
-        style = {'input_type': 'password'},
-        write_only=True,
-        min_length=8
-    )
+class ResendOtpSerializer(UpdateSerialize):
+    #Needs work for the authenticated users to show email only and email, password field otherwise.
     email = serializers.EmailField(
         style = {'important': True, 'input_type': 'email'},
+        write_only=True
     )
     class Meta:
         model = get_user_model()
         fields = [
             'id',
             'email',
-            'password',
         ]
     def create(self):
+        return
+    def update(self, instance, validated_data):
         return

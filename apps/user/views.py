@@ -2,7 +2,7 @@
     From Local 
 '''
 from apps.user.serializers import(
-    UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtp
+    UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
 )
 from apps.user.permissions import IsStaff, UserPerformActionPermission
 from apps.user.sendemails import send_otp
@@ -43,7 +43,7 @@ class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
 
 
 class ResendOtp(OTPResent):
-    serializer_class = ResendOtp
+    serializer_class = ResendOtpSerializer
     
 
 class VerifyOtp(OTPVerification):
