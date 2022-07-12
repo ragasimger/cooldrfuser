@@ -4,13 +4,15 @@ from django.utils.translation import gettext_lazy as _
 from apps.authentication.models import User
 from django.contrib.auth.models import Group
 
+
 class UserAdmin(BaseUserAdmin):
     """Define the admin pages for users."""
     ordering = ['id']
     list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff']
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        (_('Personal Info'), {'fields': ('first_name', 'last_name', 'phone', 'image', 'otp')}),
+        (_('Personal Info'), {
+         'fields': ('first_name', 'last_name', 'phone', 'image', 'otp')}),
         (
             _('Permissions'),
             {
@@ -38,8 +40,9 @@ class UserAdmin(BaseUserAdmin):
             ),
         }),
     )
-admin.site.register(User, UserAdmin)
 
+
+admin.site.register(User, UserAdmin)
 
 
 # admin.site.unregister(Group)

@@ -27,14 +27,14 @@ urlpatterns = [
     path('api/authentication/user/login/', include('rest_framework.urls')),
 
     path("", include(all_patterns)),
-    
+
 
     re_path(r'^media/(?P<path>.*)$', serve,
-        {'document_root': settings.MEDIA_ROOT}),
+            {'document_root': settings.MEDIA_ROOT}),
 
-        
+
     re_path(r'^static/(?P<path>.*)$', serve,
-        {'document_root': settings.STATIC_ROOT}),
+            {'document_root': settings.STATIC_ROOT}),
 
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,6 +2,7 @@ from django.db import models
 from apps.authentication.managers import CustomUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+
 class User(AbstractBaseUser, PermissionsMixin):
 
     '''Custom User Model for the system.'''
@@ -16,7 +17,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    otp = models.CharField(max_length=15, null=True,blank=True)
+    otp = models.CharField(max_length=15, null=True, blank=True)
 
     objects = CustomUserManager()
 

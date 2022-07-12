@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 
+
 class CustomUserManager(BaseUserManager):
 
     '''
@@ -15,8 +16,8 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("The email needs to be set.")
 
         user = self.model(
-            username=username, 
-            email=self.normalize_email(email), 
+            username=username,
+            email=self.normalize_email(email),
             **extra_fields
         )
         user.set_password(password)
@@ -24,14 +25,13 @@ class CustomUserManager(BaseUserManager):
 
         return user
 
-
     def create_superuser(self, username, email, password, **extra_fields):
         '''
             Creating SuperUser after the user creation.
         '''
         user = self.create_user(
-            username, 
-            email, 
+            username,
+            email,
             password=password
         )
         user.is_staff = True

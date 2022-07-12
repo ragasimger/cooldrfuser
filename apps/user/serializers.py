@@ -2,9 +2,11 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from apps.authentication.staticstuffs import domain_name
 
+
 class CreateSerialize(serializers.ModelSerializer):
     def create(self, validated_data):
         return get_user_model().objects.create_user(**validated_data)
+
 
 class UpdateSerialize(serializers.ModelSerializer):
 
@@ -20,13 +22,14 @@ class UpdateSerialize(serializers.ModelSerializer):
 
 class UserRegisterSerializer(CreateSerialize):
     password = serializers.CharField(
-        style = {'input_type': 'password'},
+        style={'input_type': 'password'},
         write_only=True,
         min_length=8
     )
     email = serializers.EmailField(
-        style = {'important': True, 'input_type': 'email'},
+        style={'important': True, 'input_type': 'email'},
     )
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -35,6 +38,7 @@ class UserRegisterSerializer(CreateSerialize):
             'email',
             'password',
         ]
+
 
 class UserUpdateSerializer(UpdateSerialize):
     profile_image = serializers.SerializerMethodField()
@@ -58,7 +62,7 @@ class UserUpdateSerializer(UpdateSerialize):
 
 
 class AdminLevelUserSerializer(UserRegisterSerializer):
-    
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -78,6 +82,7 @@ class AdminLevelUserSerializer(UserRegisterSerializer):
 class VerifyOtpSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     otp = serializers.CharField(write_only=True)
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -85,19 +90,23 @@ class VerifyOtpSerializer(serializers.ModelSerializer):
             'otp',
         ]
 
+
 class ResendOtpSerializer(UpdateSerialize):
-    #Needs work for the authenticated users to show email only and email, password field otherwise.
+    # Needs work for the authenticated users to show email only and email, password field otherwise.
     email = serializers.EmailField(
-        style = {'important': True, 'input_type': 'email'},
+        style={'important': True, 'input_type': 'email'},
         write_only=True
     )
+
     class Meta:
         model = get_user_model()
         fields = [
             'id',
             'email',
         ]
+
     def create(self):
         return
+
     def update(self, instance, validated_data):
         return

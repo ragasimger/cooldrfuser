@@ -24,7 +24,6 @@ useractionpatterns = [
 ]
 
 
-
 all_patterns = [
     path("user-action/", include(useractionpatterns)),
     path("user-auth/", include(authpatterns)),

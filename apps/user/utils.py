@@ -1,16 +1,15 @@
 '''
     From Local
 '''
+from rest_framework import generics
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
 from apps.user.sendemails import send_otp
 
 
 '''
     From Packages
 '''
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from rest_framework import generics
-
 
 
 # class LoggedIn:
@@ -18,7 +17,7 @@ from rest_framework import generics
 #     def logged_in(self, request):
 #         if self.request.user.is_authenticated:
 #             True
-            
+
 # class SessionExistsEmail:
 
 #     def session_exists_email(self, request, *args, **kwargs):
@@ -40,8 +39,8 @@ class CompleteCRUDUser(generics.RetrieveUpdateDestroyAPIView):
 
         if self.wrap_perms(self, request, *args):
 
-                return self.retrieve(request, *args, **kwargs)
-        
+            return self.retrieve(request, *args, **kwargs)
+
         return self.auth_perms_error
 
     def put(self, request, *args, **kwargs):
@@ -74,7 +73,6 @@ class CompleteCRUDUser(generics.RetrieveUpdateDestroyAPIView):
 
 class OTPVerification(generics.GenericAPIView):
 
-
     def post(self, request, *args, **kwargs):
 
         try:
@@ -99,7 +97,7 @@ class OTPVerification(generics.GenericAPIView):
                         'status': 404,
                         'detail': "Invalid OTP"
                     }
-            )
+                )
             user.is_active = True
             user.save()
             return Response(
@@ -121,7 +119,6 @@ class OTPVerification(generics.GenericAPIView):
 class OTPResent(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
-
         '''
             Check whether user is authenticated 
         '''
@@ -134,19 +131,19 @@ class OTPResent(generics.GenericAPIView):
             if user.is_active:
                 return Response(
                     {
-                        'status' : 404,
-                        "message" : "You are already a verified user."
+                        'status': 404,
+                        "message": "You are already a verified user."
                     }
                 )
 
             send_otp(email)
             return Response(
                 {
-                    'status' : 200,
-                    'detail' : "OTP resent successfully"
+                    'status': 200,
+                    'detail': "OTP resent successfully"
                 }
             )
-                
+
         except Exception:
             return Response(
                 {
@@ -154,8 +151,6 @@ class OTPResent(generics.GenericAPIView):
                     'detail': "You are not authorized to perform this action."
                 }
             )
-
-
 
     def post(self, request, *args, **kwargs):
 
@@ -169,14 +164,14 @@ class OTPResent(generics.GenericAPIView):
                 return Response(
                     {
                         "status": 404,
-                        "detail" : "You are already a verified user."
+                        "detail": "You are already a verified user."
                     }
                 )
             send_otp(email)
             return Response(
                 {
-                    'status' : 200,
-                    'detail' : "OTP resent successfully"
+                    'status': 200,
+                    'detail': "OTP resent successfully"
                 }
             )
         except Exception:

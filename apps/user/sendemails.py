@@ -8,8 +8,6 @@ from django.conf import settings
 from apps.user.otpgen import otp_, perform_otp_save
 
 
-
-
 def send_otp(email):
     subject = 'Activate Your Django Account'
     # message = render_to_string('users/account_activation_email.html',{
