@@ -1,6 +1,14 @@
 '''
     From Local 
 '''
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.mixins import CreateModelMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from rest_framework import (
+    filters, viewsets, generics
+)
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
 )
@@ -12,13 +20,7 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 '''
     From Packages
 '''
-from rest_framework import (
-    filters, viewsets, generics
-)
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import CreateModelMixin
+
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
@@ -33,18 +35,19 @@ class UserRegistration(generics.CreateAPIView, CreateModelMixin):
 class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
     serializer_class = UserUpdateSerializer
     queryset = get_user_model().objects.all()
+    permission_classes = [IsAuthenticated, ]
     lookup_field = 'pk'
     auth_perms_error = Response(
         {
-        'status': 404,
-        "detail": "You are not authorized to perform this action."
+            'status': 404,
+            "detail": "You are not authorized to perform this action."
         }
-        )
+    )
 
 
 class ResendOtp(OTPResent):
     serializer_class = ResendOtpSerializer
-    
+
 
 class VerifyOtp(OTPVerification):
     serializer_class = VerifyOtpSerializer

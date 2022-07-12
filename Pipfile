@@ -13,6 +13,8 @@ django-filter = "*"
 drf-spectacular = "*"
 django-cors-headers = "*"
 django-redis = "*"
+dj-rest-auth = "*"
+django-rest-auth = "*"
 
 [dev-packages]
 

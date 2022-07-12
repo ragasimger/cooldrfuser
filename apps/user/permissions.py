@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+
 class IsStaff(BasePermission):
 
     def has_permission(self, request, view):
@@ -10,7 +11,8 @@ class IsStaff(BasePermission):
 
 
 def check_user(request, obj):
-    return obj.username==request.user.username or request.user.is_staff
+    return obj.username == request.user.username or request.user.is_staff
+
 
 class CustomNotAllowed(BasePermission):
 
@@ -20,7 +22,6 @@ class CustomNotAllowed(BasePermission):
     def has_object_permission(self, request, view, obj):
         return False
 
-        
 
 class UserPerformActionPermission:
 
@@ -39,5 +40,4 @@ class UserPerformActionPermission:
         staff = self.check_staff_status(self, request)
         if self.request.user.id == id_ or staff:
             return True
-        else:
-            self.permission_classes=[CustomNotAllowed,]
+        return False
