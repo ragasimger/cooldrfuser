@@ -1,16 +1,15 @@
 '''
     From Local 
 '''
-from apps.user.process_social.serializers import FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
+from apps.user.process_social.serializers import (
+    FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
+)
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
 )
 from apps.user.permissions import IsStaff, UserPerformActionPermission
 from apps.user.sendemails import send_otp
 from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
-
-
-
 
 '''
     From Packages
@@ -29,9 +28,6 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 
 ###### Package Imports End
-
-
-
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
