@@ -47,7 +47,15 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'rest_framework.authtoken',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
 
     # Local apps
     'apps.authentication',
@@ -55,6 +63,7 @@ INSTALLED_APPS = [
 
 
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

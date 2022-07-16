@@ -1,4 +1,4 @@
-# from dj_rest_auth import urls
+from dj_rest_auth import urls
 # from dj_rest_auth.registration.urls
 from django.conf import settings
 from django.urls import path
