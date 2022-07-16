@@ -1,7 +1,7 @@
 '''
     From Local 
 '''
-from apps.user.process_social.serializers import (
+from apps.user.pr_serializers import (
     FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
 )
 from apps.user.serializers import(
