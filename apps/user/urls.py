@@ -22,5 +22,4 @@ urlpatterns = [
     path("create-user/", UserRegistration.as_view(), name="create_user"),
     path("resend/otp/", ResendOtp.as_view(), name="resend_otp"),
     path("verify/otp/", VerifyOtp.as_view(), name="verify_otp"),
-    # path('dj-rest-auth/facebook/', FacebookLoginView.as_view(), name='fb_login'),
 ]
