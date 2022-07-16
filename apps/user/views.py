@@ -1,9 +1,12 @@
 '''
     From Local 
 '''
+
 # from apps.user.pr_serializers import (
 #     FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
 # )
+
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.mixins import CreateModelMixin
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,12 +25,14 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 '''
     From Packages
 '''
+
 # from dj_rest_auth.registration.views import SocialLoginView
 # from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 # from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
 # Package Imports End
+=======
 
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
