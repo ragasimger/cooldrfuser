@@ -1,6 +1,9 @@
 '''
     From Packages 
 '''
+from apps.user.views import(
+    UserRegistration, ResendOtp, VerifyOtp
+)
 from django.conf import settings
 from django.urls import path
 
@@ -13,9 +16,6 @@ router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 '''
     From Local 
 '''
-from apps.user.views import(
-    UserRegistration, ResendOtp, VerifyOtp
-)
 
 
 urlpatterns = [

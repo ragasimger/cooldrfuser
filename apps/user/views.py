@@ -26,7 +26,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-# from dj_rest_auth.social_serializers import TwitterLoginSerializer
+from dj_rest_auth.social_serializers import TwitterLoginSerializer
 
 ###### Package Imports End
 

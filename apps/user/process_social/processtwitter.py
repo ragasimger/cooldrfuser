@@ -32,4 +32,5 @@ class TwitterAuthTokenVerification:
             return user_profile_info.__dict__
 
         except Exception as identifier:
-            raise serializers.ValidationError({"tokens": ["The tokens are invalid or expired"]}) from identifier
+            raise serializers.ValidationError(
+                {"tokens": ["The tokens are invalid or expired"]}) from identifier

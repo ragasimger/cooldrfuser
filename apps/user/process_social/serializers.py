@@ -27,7 +27,8 @@ class FacebookSocialAuthSerializer(serializers.Serializer):
                 name=name
             )
         except Exception as identifier:
-            raise serializers.ValidationError('The token  is invalid or expired. Please login again.') from identifier
+            raise serializers.ValidationError(
+                'The token  is invalid or expired. Please login again.') from identifier
 
 
 class GoogleSocialAuthSerializer(serializers.Serializer):

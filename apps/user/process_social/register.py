@@ -49,12 +49,12 @@ def register_social_user(provider, user_id, email, name):
 
             raise AuthenticationFailed(
                 detail=f'Please continue your login using {filtered_user_by_email[0].auth_provider}'
-                )
+            )
 
     else:
         gen_pass = generate_password()
         user = {
-            'username': generate_username(name), 
+            'username': generate_username(name),
             'email': email,
             'password': gen_pass
         }
