@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
                   'twitter': 'twitter', 'email': 'email'}
 
+
 class User(AbstractBaseUser, PermissionsMixin):
 
     '''Custom User Model for the system.'''
@@ -25,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    otp = models.CharField(max_length=15, null=True,blank=True)
+    otp = models.CharField(max_length=15, null=True, blank=True)
 
     objects = CustomUserManager()
 
