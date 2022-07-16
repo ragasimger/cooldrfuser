@@ -32,7 +32,7 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
 # Package Imports End
-=======
+== == == =
 
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
