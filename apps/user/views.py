@@ -1,6 +1,19 @@
 '''
     From Local 
 '''
+from dj_rest_auth.social_serializers import TwitterLoginSerializer
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.mixins import CreateModelMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from rest_framework import (
+    filters, viewsets, generics
+)
 from apps.user.process_social.serializers import (
     FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
 )
@@ -14,21 +27,9 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 '''
     From Packages
 '''
-from rest_framework import (
-    filters, viewsets, generics
-)
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.permissions import IsAuthenticated
-from dj_rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from dj_rest_auth.social_serializers import TwitterLoginSerializer
 
-###### Package Imports End
+# Package Imports End
+
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
@@ -43,19 +44,19 @@ class UserRegistration(generics.CreateAPIView, CreateModelMixin):
 class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
     serializer_class = UserUpdateSerializer
     queryset = get_user_model().objects.all()
-    permission_classes=[IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
     lookup_field = 'pk'
     auth_perms_error = Response(
         {
-        'status': 404,
-        "detail": "You are not authorized to perform this action."
+            'status': 404,
+            "detail": "You are not authorized to perform this action."
         }
-        )
+    )
 
 
 class ResendOtp(OTPResent):
     serializer_class = ResendOtpSerializer
-    
+
 
 class VerifyOtp(OTPVerification):
     serializer_class = VerifyOtpSerializer
@@ -74,9 +75,11 @@ class FacebookLoginSignUpView(SocialLoginView):
     serializer_class = FacebookSocialAuthSerializer
     adapter_class = FacebookOAuth2Adapter
 
+
 class TwitterLoginSignUpView(SocialLoginView):
     serializer_class = TwitterAuthSerializer
     adapter_class = TwitterOAuthAdapter
+
 
 class GoogleLoginSignUpView(SocialLoginView):
     serializer_class = GoogleSocialAuthSerializer
