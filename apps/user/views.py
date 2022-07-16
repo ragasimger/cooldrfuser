@@ -1,12 +1,15 @@
 '''
     From Local 
 '''
+from apps.user.process_social.serializers import FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
 )
 from apps.user.permissions import IsStaff, UserPerformActionPermission
 from apps.user.sendemails import send_otp
 from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
+
+
 
 
 '''
@@ -20,6 +23,15 @@ from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+
+###### Package Imports End
+
+
+
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
@@ -59,3 +71,17 @@ class AdminLevelUserViewSet(viewsets.ModelViewSet):
     search_fields = ("username",)
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ("username", "email", "first_name",)
+
+
+class FacebookLoginSignUpView(SocialLoginView):
+    serializer_class = FacebookSocialAuthSerializer
+    adapter_class = FacebookOAuth2Adapter
+
+
+class TwitterLoginSignUpView(SocialLoginView):
+    serializer_class = TwitterAuthSerializer
+    adapter_class = TwitterOAuthAdapter
+
+class GoogleLoginSignUpView(SocialLoginView):
+    serializer_class = GoogleSocialAuthSerializer
+    adapter_class = GoogleOAuth2Adapter

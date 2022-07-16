@@ -14,7 +14,7 @@ router = DefaultRouter() if settings.DEBUG else SimpleRouter()
     From Local 
 '''
 from apps.user.views import(
-    UserRegistration, ResendOtp, VerifyOtp
+    FacebookLoginView, UserRegistration, ResendOtp, VerifyOtp
 )
 
 
@@ -22,4 +22,5 @@ urlpatterns = [
     path("create-user/", UserRegistration.as_view(), name="create_user"),
     path("resend/otp/", ResendOtp.as_view(), name="resend_otp"),
     path("verify/otp/", VerifyOtp.as_view(), name="verify_otp"),
+    path('dj-rest-auth/facebook/', FacebookLoginView.as_view(), name='fb_login'),
 ]

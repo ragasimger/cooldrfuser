@@ -15,6 +15,10 @@ django-cors-headers = "*"
 django-redis = "*"
 dj-rest-auth = "*"
 django-rest-auth = "*"
+django-allauth = "*"
+facebook-sdk = "==3.1.0"
+google-api-python-client = "==2.53.0"
+python-twitter = "==3.5"
 
 [dev-packages]
 
