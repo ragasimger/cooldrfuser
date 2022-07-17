@@ -1,12 +1,11 @@
 '''
     From Local 
 '''
-
-# from apps.user.pr_serializers import (
-#     FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
-# )
-
-
+from dj_rest_auth.social_serializers import TwitterLoginSerializer
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.mixins import CreateModelMixin
 from django_filters.rest_framework import DjangoFilterBackend
@@ -14,6 +13,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework import (
     filters, viewsets, generics
+)
+from apps.user.process_social.serializers import (
+    FacebookSocialAuthSerializer, GoogleSocialAuthSerializer, TwitterAuthSerializer
 )
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
@@ -25,11 +27,6 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 '''
     From Packages
 '''
-
-# from dj_rest_auth.registration.views import SocialLoginView
-# from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-# from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
-# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
 # Package Imports End
 
@@ -74,15 +71,16 @@ class AdminLevelUserViewSet(viewsets.ModelViewSet):
     filterset_fields = ("username", "email", "first_name",)
 
 
-# from dj_rest_auth.social_serializers import TwitterLoginSerializer
-# class FacebookLoginSignUpView(SocialLoginView):
-#     serializer_class = FacebookSocialAuthSerializer
-#     adapter_class = FacebookOAuth2Adapter
+class FacebookLoginSignUpView(SocialLoginView):
+    serializer_class = FacebookSocialAuthSerializer
+    adapter_class = FacebookOAuth2Adapter
 
-# class TwitterLoginSignUpView(SocialLoginView):
-#     serializer_class = TwitterAuthSerializer
-#     adapter_class = TwitterOAuthAdapter
 
-# class GoogleLoginSignUpView(SocialLoginView):
-#     serializer_class = GoogleSocialAuthSerializer
-#     adapter_class = GoogleOAuth2Adapter
+class TwitterLoginSignUpView(SocialLoginView):
+    serializer_class = TwitterAuthSerializer
+    adapter_class = TwitterOAuthAdapter
+
+
+class GoogleLoginSignUpView(SocialLoginView):
+    serializer_class = GoogleSocialAuthSerializer
+    adapter_class = GoogleOAuth2Adapter
