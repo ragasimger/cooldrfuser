@@ -1,6 +1,14 @@
 '''
     From Local 
 '''
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.mixins import CreateModelMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from rest_framework import (
+    filters, viewsets, generics
+)
 from apps.user.serializers import(
     UserRegisterSerializer, AdminLevelUserSerializer, UserUpdateSerializer, VerifyOtpSerializer, ResendOtpSerializer
 )
@@ -11,14 +19,6 @@ from apps.user.utils import CompleteCRUDUser, OTPResent, OTPVerification
 '''
     From Packages
 '''
-from rest_framework import (
-    filters, viewsets, generics
-)
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.permissions import IsAuthenticated
 
 # Package Imports End
 
