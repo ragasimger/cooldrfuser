@@ -1,4 +1,3 @@
-# from apps.user.views import FacebookLogin
 from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -25,14 +24,13 @@ registerpatterns = [
 useractionpatterns = [
     path("", include("apps.user.actionurls")),
 ]
-
+adminleveluser = [
+    path("", include("apps.user.adminlevelurls")),
+]
 all_patterns = [
     path("user-action/", include(useractionpatterns)),
     path("user-auth/", include(authpatterns)),
     path("register-user/", include(registerpatterns)),
-    path("admin-level-user/", include("apps.user.adminlevelurls")),
-    # path("auth-api/", include("dj_rest_auth.urls")),
-    # path("ragasregister/", include("dj_rest_auth.registration.urls")),
-
+    path("admin-level-user/", include(adminleveluser)),
     path("docs/", include(schemapatterns)),
 ]
