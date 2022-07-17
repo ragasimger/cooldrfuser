@@ -20,7 +20,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-###### Package Imports End
+# Package Imports End
+
 
 class UserRegistration(generics.CreateAPIView, CreateModelMixin):
     serializer_class = UserRegisterSerializer
@@ -35,19 +36,19 @@ class UserRegistration(generics.CreateAPIView, CreateModelMixin):
 class PerformUserAction(CompleteCRUDUser, UserPerformActionPermission):
     serializer_class = UserUpdateSerializer
     queryset = get_user_model().objects.all()
-    permission_classes=[IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
     lookup_field = 'pk'
     auth_perms_error = Response(
         {
-        'status': 404,
-        "detail": "You are not authorized to perform this action."
+            'status': 404,
+            "detail": "You are not authorized to perform this action."
         }
-        )
+    )
 
 
 class ResendOtp(OTPResent):
     serializer_class = ResendOtpSerializer
-    
+
 
 class VerifyOtp(OTPVerification):
     serializer_class = VerifyOtpSerializer
